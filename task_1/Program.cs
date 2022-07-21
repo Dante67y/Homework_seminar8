@@ -1,4 +1,7 @@
-﻿int[,] CreateMatr(int m, int n)
+﻿// Задайте двумерный массив. Напишите программу
+// которая упорядочит по убыванию элементы каждой строки двумерного массива.
+
+int[,] CreateMatr(int m, int n)
 {
     int[,] matrix = new int[m, n];
     for (int i = 0; i < matrix.GetLength(0); i++)
@@ -6,7 +9,7 @@
         for (int j = 0; j < matrix.GetLength(1); j++)
         {
             matrix[i, j] = new Random().Next(1, 10);
-            Console.Write(matrix[i, j] + "  ");
+            Console.Write(matrix[i, j] + " ");
         }
         Console.WriteLine();
     }
@@ -15,26 +18,33 @@
 
 void PrintMatr(int[,] matrix)
 {
+    // Меняем местами первую и последнюю строку массива
     Console.WriteLine();
-    int[] array = new int[matrix.GetLength(0) * matrix.GetLength(1)];
-    int k = 0;
+    for (int i = 0; i < matrix.GetLength(0); i++)
+    {
+        for (int j = 0; j < matrix.GetLength(1) - 1; j++)
+        {
+            for (int z = 0; z < matrix.GetLength(1) - 1; z++)
+            {
+                if (matrix[i, z] < matrix[i, z + 1]) // Для упорядочивания по возрастанию
+                                                     // надо поменять знак '<' на '>'
+                {
+                    int max = 0;
+                    max = matrix[i, z];
+                    matrix[i, z] = matrix[i, z + 1];
+                    matrix[i, z + 1] = max;
+                }
+            }
+        }
+    }
+    Console.WriteLine("Массив с упорядоченными значениями:");
     for (int i = 0; i < matrix.GetLength(0); i++)
     {
         for (int j = 0; j < matrix.GetLength(1); j++)
         {
-            array[k] = matrix[i, j];
-            k++;
+            Console.Write(matrix[i, j] + " ");
         }
-    }
-    for (int i = 0; i < array.Length; i++)
-    {
-        int count = 1;
-        for (int j = 0; j < array.Length; j++)
-        {
-            if (array[i] == array[j] && i != j)
-                count++;
-        }
-        Console.WriteLine(array[i] + " встречается " + count + " раз");
+        Console.WriteLine();
     }
 }
 Console.Write("Введите количество строк в массиве: ");
